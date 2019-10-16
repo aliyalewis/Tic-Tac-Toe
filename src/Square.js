@@ -4,7 +4,7 @@ import "./Square.css";
 class Square extends Component {
 
     handleClick = (props) => {
-        props.updateBoard(props.location);
+        props.gameLoop(props.location);
     }
 
     render() {
