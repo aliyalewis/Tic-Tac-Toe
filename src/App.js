@@ -11,7 +11,12 @@ class App extends Component {
       " ", " ", " ",
       " ", " ", " ",
       " ", " ", " "
-    ]
+    ],
+    turn: "X"
+  }
+
+  updateBaord = (location, turn) => {
+
   }
 
   render() {
@@ -23,7 +28,7 @@ class App extends Component {
           <NewGame />
         </div>
         {this.state.board.map((value, index )=> {
-           return <Square />
+           return <Square key={index} location={index} value={value} updateBoard={this.updateBoard} turn={this.state.turn} />
         })}
       </div>
     );
