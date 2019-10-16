@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Square.css";
 
 class Square extends Component {
 
@@ -8,7 +9,7 @@ class Square extends Component {
 
     render() {
         return (
-            <div onClick={() => this.handleClick(this.props)}>
+            <div className="square" onClick={() => this.handleClick(this.props)}>
                 <p>{this.props.value}</p>
             </div>
         )
