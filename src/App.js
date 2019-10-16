@@ -3,7 +3,7 @@ import './App.css';
 import Status from "./Status";
 import NewGame from "./NewGame";
 import Square from "./Square";
-// import { thisTypeAnnotation } from '@babel/types';
+import Score from "./Score";
 
 class App extends Component {
   state = {
@@ -11,7 +11,11 @@ class App extends Component {
     turn: "X",
     winner: null,
     maxPlayer: "X",
-    minPlayer: "O"
+    minPlayer: "O",
+    userWins: 0,
+    userLosses: 0,
+    computerWins: 0,
+    computerLosses: 0
   };
 
   clearBoard = () => {
@@ -25,7 +29,7 @@ class App extends Component {
   };
 
   winner = (board, player) => {
-    if(
+    if (
       (board[0] === player && board[1] === player && board[2] === player) ||
       (board[3] === player && board[4] === player && board[5] === player) ||
       (board[6] === player && board[7] === player && board[8] === player) ||
@@ -39,7 +43,7 @@ class App extends Component {
     } else {
       return false;
     }
-  }
+  };
 
   tie = board => {
     let moves = board.join("").replace(/ /g, "");
@@ -55,7 +59,6 @@ class App extends Component {
   };
 
   validMove = (move, player, board) => {
-    //checks if move is valid and if it is places move on board
     let newBoard = this.copyBoard(board);
     if (newBoard[move] === " ") {
       newBoard[move] = player;
@@ -147,12 +150,12 @@ class App extends Component {
       return;
     }
 
-    if(this.tie(currentBoard)) {
+    if (this.tie(currentBoard)) {
       this.setState({
         board: currentBoard,
         winner: "Tie"
       });
-      return
+      return;
     }
 
     player = "O";
@@ -183,6 +186,20 @@ class App extends Component {
     });
   };
 
+  calculateScore = winner => {
+    if (winner === "X") {
+      this.setState({
+        userWins: this.state.userWins +1,
+        computerLosses: this.state.computerLosses +1
+      })
+    } else {
+      this.setState({
+        userLosses: this.state.userLosses +1,
+        computerLosses: this.state.computerLosses +1
+      })
+    }
+  };
+
   render() {
     return (
       <div>
@@ -190,6 +207,7 @@ class App extends Component {
           <h1>Tic-Tac-Toe</h1>
           <Status winner={this.state.winner} />
           <NewGame clearBoard={this.clearBoard} />
+          <Score winner={this.state.winner} calculateScore={this.calculateScore} userWins={this.state.userWins} computerWins={this.state.computerWins} />
         </div>
         {this.state.board.map((value, index) => {
           return (

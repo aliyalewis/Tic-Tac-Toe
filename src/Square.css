@@ -3,7 +3,9 @@
     height: 200px;
     font-size: 60px;
     background: white;
-    border: solid black;
-    text-align: center;
+    border: thin solid black;
     display: inline-block;
+    float: left;
+    text-align: center;
+    line-height: 150px;
 }
