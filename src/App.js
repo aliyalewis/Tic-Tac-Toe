@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Status from "./Status";
+import NewGame from "./NewGame";
+import Square from "./Square";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    board: [
+      " ", " ", " ",
+      " ", " ", " ",
+      " ", " ", " "
+    ]
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="menu">
+          <h1>Tic-Tac-Toe</h1>
+          <Status />
+          <NewGame />
+        </div>
+        {this.state.board.map((value, index )=> {
+           return <Square />
+        })}
+      </div>
+    );
+  }
+  
 }
 
 export default App;
