@@ -13,16 +13,24 @@ class App extends Component {
       " ", " ", " "
     ],
     turn: "X",
-    winner: null
+    winner: null,
+    maxPlayer: "X",
+    minPlayer: "O"
   }
 
-  updateBaord = (location) => {
-    if(this.state.board[location] === 'X' || this.state.board[location] === "O") {
+  updateBoard = (location) => {
+    if(this.state.board[location] === 'X' || this.state.board[location] === "O" || this.state.winner) {
       return 
     }
 
+    let currentBoard = this.state.board;
+    currentBoard.splice(location, 1, this.state.turn);
+    this.setState({
+      board: currentBoard
+    })
+
     let firstRow = this.state.board[0] + this.state.board[1] + this.state.board[2];
-    if(firstRow.match(/XXX | OOO/)) {
+    if(firstRow.match(/XXX|OOO/)) {
       this.setState({
         winner: this.state.turn
       });
@@ -30,7 +38,7 @@ class App extends Component {
     }
 
     let secondRow = this.state.board[3] + this.state.board[4] + this.state.board[5];
-     if (secondRow.match(/XXX | OOO/)) {
+     if (secondRow.match(/XXX|OOO/)) {
        this.setState({
          winner: this.state.turn
        });
@@ -38,7 +46,7 @@ class App extends Component {
      }
 
     let thirdRow = this.state.board[6] + this.state.board[7] + this.state.board[8];
-     if (third.match(/XXX | OOO/)) {
+     if (thirdRow.match(/XXX|OOO/)) {
        this.setState({
          winner: this.state.turn
        });
@@ -46,7 +54,7 @@ class App extends Component {
      }
 
      let firstColumn = this.state.board[0] + this.state.board[3] + this.state.board[6];
-      if (firstColumn.match(/XXX | OOO/)) {
+      if (firstColumn.match(/XXX|OOO/)) {
         this.setState({
           winner: this.state.turn
         });
@@ -54,7 +62,7 @@ class App extends Component {
       }
 
        let secondColumn = this.state.board[1] + this.state.board[4] + this.state.board[7];
-       if (secondColumn.match(/XXX | OOO/)) {
+       if (secondColumn.match(/XXX|OOO/)) {
          this.setState({
            winner: this.state.turn
          });
@@ -62,7 +70,7 @@ class App extends Component {
        }
 
         let thirdColumn = this.state.board[2] + this.state.board[5] + this.state.board[8];
-        if (thirdColumn.match(/XXX | OOO/)) {
+        if (thirdColumn.match(/XXX|OOO/)) {
           this.setState({
             winner: this.state.turn
           });
@@ -70,18 +78,32 @@ class App extends Component {
         }
 
         let leftRight = this.state.board[0] + this.state.board[4] + this.state.board[8];
-        if (leftRight.match(/XXX | OOO/)) {
+        if (leftRight.match(/XXX|OOO/)) {
           this.setState({
             winner: this.state.turn
           });
+          return
         }
 
         let rightLeft = this.state.board[2] + this.state.board[4] + this.state.board[6];
-        if (leftRight.match(/XXX | OOO/)) {
+        if (rightLeft.match(/XXX|OOO/)) {
           this.setState({
             winner: this.state.turn
           });
+          return
         }
+
+        // the length of moves will become the number of plays made so far
+        let moves = this.state.board.join("").replace(/ /g, "");
+        if(moves.length === 9) {
+          this.setState({
+            winner: "Tie"
+          });
+        }
+
+        this.setState({
+          turn: (this.state.turn === "X" ? "O" : "X")
+        })
 
   }
 
@@ -93,7 +115,9 @@ class App extends Component {
         " ", " ", " "
       ],
       turn: "X",
-      winner: null
+      winner: null,
+      maxPlayer: "X",
+      minPlayer: "O"
     });
   }
 
