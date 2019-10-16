@@ -2,8 +2,8 @@
     width: 25%;
     height: 200px;
     font-size: 60px;
-    background: black;
-    border: solid whitesmoke;
+    background: white;
+    border: solid black;
     text-align: center;
     display: inline-block;
 }

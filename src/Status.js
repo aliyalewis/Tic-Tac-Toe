@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import "./Status.css"
 
 class Status extends Component {
     render() {
         return(
-            <div className="visible">
-                <h2>Game Status:</h2>
+            <div className={this.props.winner ? "visible" : "hidden"}>
+                <h2>Player "{this.props.winner ? this.props.winner : null}" won!</h2>
             </div>
         )
     }
