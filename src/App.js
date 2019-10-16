@@ -15,7 +15,8 @@ class App extends Component {
     userWins: 0,
     userLosses: 0,
     computerWins: 0,
-    computerLosses: 0
+    computerLosses: 0,
+    tie: 0
   };
 
   clearBoard = () => {
@@ -40,7 +41,9 @@ class App extends Component {
       (board[2] === player && board[4] === player && board[6] === player)
     ) {
       return true;
-    } 
+    } else {
+      this.clearBoard();
+    }
   };
 
   tie = board => {
@@ -60,6 +63,7 @@ class App extends Component {
     if(this.winner(board, player)) {
       return;
     }
+
     let newBoard = this.copyBoard(board);
     if (newBoard[move] === " ") {
       newBoard[move] = player;
@@ -187,22 +191,22 @@ class App extends Component {
     });
   };
 
-  calculateScore = winner => {
+  calculateScore = (winner, board) => {
     if (winner === "X") {
       this.setState({
         userWins: this.state.userWins +1,
-        userLosses: this.state.userLosses +0,
-        computerWins: this.state.computerWins +0,
+        userLosses: this.state.userLosses,
+        computerWins: this.state.computerWins,
         computerLosses: this.state.computerLosses +1
       })
     } else if (winner === "O") {
       this.setState({
-        userWins: this.state.userWins +0,
+        userWins: this.state.userWins,
         userLosses: this.state.userLosses +1,
-        computerWins: this.state.computerWins +0,
-        computerLosses: this.state.computerLosses +1
+        computerWins: this.state.computerWins +1,
+        computerLosses: this.state.computerLosses
       })
-    }
+    } 
   };
 
   render() {
@@ -212,7 +216,7 @@ class App extends Component {
           <h1>Tic-Tac-Toe</h1>
           <Status winner={this.state.winner} />
           <NewGame clearBoard={this.clearBoard} />
-          <Score winner={this.state.winner} calculateScore={this.calculateScore} userWins={this.state.userWins} computerWins={this.state.computerWins} />
+          <Score winner={this.state.winner} calculateScore={this.calculateScore} userWins={this.state.userWins} computerWins={this.state.computerWins} userLosses={this.state.userLosses} computerLosses={this.state.computerLosses} />
         </div>
         {this.state.board.map((value, index) => {
           return (

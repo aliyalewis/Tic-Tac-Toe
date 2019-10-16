@@ -16,6 +16,7 @@ class Score extends Component {
             <h3>Computer Score:</h3>
             <p>Wins: {this.props.computerWins}</p>
             <p>Losses: {this.props.computerLosses}</p>
+            {console.log(this.props.userWins, this.props.userLosses)}
           </div>
         );
     }
