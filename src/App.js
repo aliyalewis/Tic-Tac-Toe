@@ -40,9 +40,7 @@ class App extends Component {
       (board[2] === player && board[4] === player && board[6] === player)
     ) {
       return true;
-    } else {
-      return false;
-    }
+    } 
   };
 
   tie = board => {
@@ -58,20 +56,23 @@ class App extends Component {
     return board.slice(0);
   };
 
-  validMove = (move, player, board) => {
+  validMove = (move, player, board,) => {
+    if(this.winner(board, player)) {
+      return;
+    }
     let newBoard = this.copyBoard(board);
     if (newBoard[move] === " ") {
       newBoard[move] = player;
       return newBoard;
     } else {
-      return null;
+      return;
     }
   };
 
   findMove = board => {
     let bestMoveScore = 100;
     let move = null;
-    // test all possible moves if game is not over
+
     if (this.winner(board, "X") || this.winner(board, "O") || this.tie(board)) {
       return null;
     }
@@ -190,11 +191,15 @@ class App extends Component {
     if (winner === "X") {
       this.setState({
         userWins: this.state.userWins +1,
+        userLosses: this.state.userLosses +0,
+        computerWins: this.state.computerWins +0,
         computerLosses: this.state.computerLosses +1
       })
-    } else {
+    } else if (winner === "O") {
       this.setState({
+        userWins: this.state.userWins +0,
         userLosses: this.state.userLosses +1,
+        computerWins: this.state.computerWins +0,
         computerLosses: this.state.computerLosses +1
       })
     }

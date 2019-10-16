@@ -8,12 +8,14 @@ class Score extends Component {
             <button
               onClick={() => this.props.calculateScore(this.props.winner)}
             >
-              See Score!
+              Update Score!
             </button>
             <h3>User Score:</h3>
             <p>Wins: {this.props.userWins}</p>
             <p>Losses: {this.props.userLosses}</p>
-            {console.log(this.props.userWins, this.props.userLosses)}
+            <h3>Computer Score:</h3>
+            <p>Wins: {this.props.computerWins}</p>
+            <p>Losses: {this.props.computerLosses}</p>
           </div>
         );
     }
