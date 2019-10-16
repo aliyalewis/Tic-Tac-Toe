@@ -18,107 +18,63 @@ class App extends Component {
     minPlayer: "O"
   }
 
-  updateBoard = (location) => {
-    if(this.state.board[location] === 'X' || this.state.board[location] === "O" || this.state.winner) {
-      return 
-    }
-
-    let currentBoard = this.state.board;
-    currentBoard.splice(location, 1, this.state.turn);
-    this.setState({
-      board: currentBoard
-    })
-
-    let firstRow = this.state.board[0] + this.state.board[1] + this.state.board[2];
-    if(firstRow.match(/XXX|OOO/)) {
-      this.setState({
-        winner: this.state.turn
-      });
-      return
-    }
-
-    let secondRow = this.state.board[3] + this.state.board[4] + this.state.board[5];
-     if (secondRow.match(/XXX|OOO/)) {
-       this.setState({
-         winner: this.state.turn
-       });
-       return;
-     }
-
-    let thirdRow = this.state.board[6] + this.state.board[7] + this.state.board[8];
-     if (thirdRow.match(/XXX|OOO/)) {
-       this.setState({
-         winner: this.state.turn
-       });
-       return;
-     }
-
-     let firstColumn = this.state.board[0] + this.state.board[3] + this.state.board[6];
-      if (firstColumn.match(/XXX|OOO/)) {
-        this.setState({
-          winner: this.state.turn
-        });
-        return;
+  winner = (board, player) => {
+    if(
+      (board[0] === player && board[1] === player && board[2] === player) || 
+      (board[3] === player && board[4] === player && board[5] === player) ||
+      (board[6] === player && board[7] === player && board[8] === player) ||
+      (board[0] === player && board[3] === player && board[6] === player) ||
+      (board[1] === player && board[4] === player && board[7] === player) ||
+      (board[2] === player && board[5] === player && board[8] === player) ||
+      (board[0] === player && board[4] === player && board[8] === player) ||
+      (board[2] === player && board[4] === player && board[6] === player)
+     ) {
+        return true;
+      } else {
+        return null;
       }
-
-       let secondColumn = this.state.board[1] + this.state.board[4] + this.state.board[7];
-       if (secondColumn.match(/XXX|OOO/)) {
-         this.setState({
-           winner: this.state.turn
-         });
-         return;
-       }
-
-        let thirdColumn = this.state.board[2] + this.state.board[5] + this.state.board[8];
-        if (thirdColumn.match(/XXX|OOO/)) {
-          this.setState({
-            winner: this.state.turn
-          });
-          return;
-        }
-
-        let leftRight = this.state.board[0] + this.state.board[4] + this.state.board[8];
-        if (leftRight.match(/XXX|OOO/)) {
-          this.setState({
-            winner: this.state.turn
-          });
-          return
-        }
-
-        let rightLeft = this.state.board[2] + this.state.board[4] + this.state.board[6];
-        if (rightLeft.match(/XXX|OOO/)) {
-          this.setState({
-            winner: this.state.turn
-          });
-          return
-        }
-
-        // the length of moves will become the number of plays made so far
-        let moves = this.state.board.join("").replace(/ /g, "");
-        if(moves.length === 9) {
-          this.setState({
-            winner: "Tie"
-          });
-        }
-
-        this.setState({
-          turn: (this.state.turn === "X" ? "O" : "X")
-        })
-
   }
 
-  clearBoard = () => {
-    this.setState({
-      board: [
-        " ", " ", " ",
-        " ", " ", " ",
-        " ", " ", " "
-      ],
-      turn: "X",
-      winner: null,
-      maxPlayer: "X",
-      minPlayer: "O"
-    });
+  copyBoard = (board) => {
+    return board.slice(0);
+  }
+
+  validMove = (move, player, board) => {
+    //checks if move is valid and if it is places move on board
+    let newBoard = this.copyBoard(board);
+    if (newBoard[move] === " ") {
+      newBoard[move] = player;
+      return newBoard;
+    } else {
+      return null;
+    }
+  }
+
+  findMove = (board) => {
+    let bestMoveScore = 100;
+    let move = null; 
+    // test all possible moves if game is not over
+    if(this.winner(board, "X") || this.winner(board, "O") || this.tie(board)) {
+      return null;
+    }
+
+    //iterates through the whole board and finds all valid moves
+    //saves scores that are better than the bestMoveScore
+    for(let i =0; i < board.length; i++) {
+      //check every possible AI move and check if valid
+      // if yes, return the board and call the function again on the board if it's vaild
+      let newBoard = this.validMove(i, this.state.minPlayer, board);
+      if(newBoard) {
+        //assign a move score which needs to be the maximum of all positions
+
+        let moveScore = this.maxScore(newBoard);
+        if (moveScore < bestMoveScore) {
+          bestMoveScore = moveScore;
+          move = i;
+        }
+      }
+    }
+    return move;
   }
 
   render() {
