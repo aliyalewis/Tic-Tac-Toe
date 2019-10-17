@@ -18,7 +18,11 @@ describe.only("Test for <Score />", () => {
     it("calls this.props.calculateScore when clicked", () => {
         wrapper.find(".score button").simulate("click");
         expect(scoreSpy).to.have.been.called;
-    }) 
+    });
+
+    it('includes 1 div with a class name of "score', () => {
+        expect(wrapper.find("div.score")).to.have.lengthOf(1);
+    });
 })
 
 
