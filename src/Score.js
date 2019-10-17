@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+
+configure({ adapter: new Adapter() });
 
 class Score extends Component {
 
     render() {
         return (
-          <div>
+          <div className="score">
             <button
               onClick={() => this.props.calculateScore(this.props.winner)}
             >
