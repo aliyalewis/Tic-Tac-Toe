@@ -15,8 +15,7 @@ class App extends Component {
     userWins: 0,
     userLosses: 0,
     computerWins: 0,
-    computerLosses: 0,
-    tie: 0
+    computerLosses: 0
   };
 
   clearBoard = () => {
