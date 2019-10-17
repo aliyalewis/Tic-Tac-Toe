@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import "./Square.css";
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+
+configure({ adapter: new Adapter() });
 
 class Square extends Component {
 
