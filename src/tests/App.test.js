@@ -22,8 +22,14 @@ it('renders without crashing', () => {
     });
 
     it("Renders <Score />", () => {
-      expect(wrapper.exists()).to.equal(true)
+      expect(wrapper.exists()).to.equal(true);
     });
+
+    it("Passes calculateScore down as a prop to <Score />", () => {
+      expect(wrapper.props().calculateScore).to.exist
+    })
+  });
+
 
   describe("Test for <NewGame /> in <App/>", () => {
     let wrapper;
@@ -31,9 +37,9 @@ it('renders without crashing', () => {
       wrapper = shallow(<App />).find(NewGame);
     });
 
-    it("Passes this.clearBoard as a prop to <NewGame />", () => {
+    it("Passes the function clearBoard as a prop to <NewGame />", () => {
       expect(wrapper.props().clearBoard).to.exist
-    })
+    });
   })
 
-});
+
