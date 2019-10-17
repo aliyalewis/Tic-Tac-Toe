@@ -4,7 +4,7 @@
 
 1. Fork/Clone this repo onto your local system.
 2. `cd` into "tic-tac-toe" and run `npm i && npm start` in your terminal/prompt.
-3. If the application doesn't automatically launch, type <http://localhost:3000> into a browser of your choice (Google Chrome is recommended).
+3. If the application doesn't automatically launch, click (or type) <http://localhost:3000> into a browser of your choice (Google Chrome is recommended).
 4. Play as many games of Tic-Tac-Toe against the computer as you wish!
 
 ## Technologies
