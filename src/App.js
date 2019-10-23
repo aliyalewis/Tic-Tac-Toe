@@ -131,7 +131,7 @@ class App extends Component {
     } else {
       let bestMoveValue = -100;
       for (let i = 0; i < board.length; i++) {
-        let newBoard = this.validMove(i, this.state.minPlayer, board);
+        let newBoard = this.validMove(i, this.state.maxPlayer, board);
         if (newBoard) {
           let predictedMoveValue = this.minScore(newBoard);
           if (predictedMoveValue > bestMoveValue) {
