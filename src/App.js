@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Status from "./Status";
-import NewGame from "./NewGame";
 import Square from "./Square";
 import Score from "./Score";
 
@@ -41,7 +40,7 @@ class App extends Component {
     ) {
       return true;
     } else {
-      this.clearBoard();
+      return;
     }
   };
 
@@ -63,6 +62,10 @@ class App extends Component {
       return;
     }
 
+    if(board[move] !== " ") {
+      return
+    }
+
     let newBoard = this.copyBoard(board);
     if (newBoard[move] === " ") {
       newBoard[move] = player;
@@ -80,15 +83,9 @@ class App extends Component {
       return null;
     }
 
-    //iterates through the whole board and finds all valid moves
-    //saves scores that are better than the bestMoveScore
     for (let i = 0; i < board.length; i++) {
-      //check every possible AI move and check if valid
-      // if yes, return the board and call the function again on the board if it's vaild
       let newBoard = this.validMove(i, this.state.minPlayer, board);
       if (newBoard) {
-        //assign a move score which needs to be the maximum of all positions
-
         let moveScore = this.maxScore(newBoard);
         if (moveScore < bestMoveScore) {
           bestMoveScore = moveScore;
@@ -101,9 +98,9 @@ class App extends Component {
 
   minScore = board => {
     if (this.winner(board, "X")) {
-      return 10;
+      return 5;
     } else if (this.winner(board, "O")) {
-      return -10;
+      return -5;
     } else if (this.tie(board)) {
       return 0;
     } else {
@@ -123,15 +120,15 @@ class App extends Component {
 
   maxScore = board => {
     if (this.winner(board, "X")) {
-      return 10;
+      return 5;
     } else if (this.winner(board, "O")) {
-      return -10;
+      return -5;
     } else if (this.tie(board)) {
       return 0;
     } else {
       let bestMoveValue = -100;
       for (let i = 0; i < board.length; i++) {
-        let newBoard = this.validMove(i, this.state.minPlayer, board);
+        let newBoard = this.validMove(i, this.state.maxPlayer, board);
         if (newBoard) {
           let predictedMoveValue = this.minScore(newBoard);
           if (predictedMoveValue > bestMoveValue) {
@@ -146,6 +143,7 @@ class App extends Component {
   gameLoop = move => {
     let player = this.state.turn;
     let currentBoard = this.validMove(move, player, this.state.board);
+    console.log(currentBoard)
     if (this.winner(currentBoard, player)) {
       this.setState({
         board: currentBoard,
@@ -214,9 +212,9 @@ class App extends Component {
         <div className="menu">
           <h1>Tic-Tac-Toe</h1>
           <Status winner={this.state.winner} />
-          <NewGame clearBoard={this.clearBoard} />
           <Score winner={this.state.winner} calculateScore={this.calculateScore} userWins={this.state.userWins} computerWins={this.state.computerWins} userLosses={this.state.userLosses} computerLosses={this.state.computerLosses} />
         </div>
+        <button onClick={() => this.clearBoard()}>"NEW GAME"</button>
         {this.state.board.map((value, index) => {
           return (
             <Square
